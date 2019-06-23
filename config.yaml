@@ -1,0 +1,11 @@
+kafka:
+  brokers:
+    - worker-001.dev.priv.aws.bigdata-api.com
+    - worker-002.dev.priv.aws.bigdata-api.com
+    - worker-003.dev.priv.aws.bigdata-api.com
+    - worker-004.dev.priv.aws.bigdata-api.com
+    - worker-005.dev.priv.aws.bigdata-api.com
+    - worker-006.dev.priv.aws.bigdata-api.com
+  port: 9092
+  extra_config:
+    max.poll.interval.ms: 300000
