@@ -12,7 +12,6 @@ def main(args):
     conf = read_config()
 
     kafka_config = gen_kafka_config(conf)
-    kafka_config['auto.offset.reset'] = args.offset
 
     if args.debug:
         print("Kafka configuration:")
