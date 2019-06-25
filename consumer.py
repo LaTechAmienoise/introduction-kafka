@@ -3,6 +3,7 @@ from confluent_kafka import (
     OFFSET_BEGINNING
 )
 from common import read_config, gen_kafka_config, get_consumer_parser
+from schema.marshmallow import User, UserSchema
 import json
 import logging
 
@@ -36,10 +37,27 @@ def main(args):
     consumer = Consumer(kafka_config)
     consumer.subscribe([args.topic], on_assign=_on_assign)
 
+    schema = None
+    if args.schema in ['marshmallow', 'marshmallow-extended']:
+        schema = UserSchema()
+
     while True:
         message = consumer.poll(1)
         if message is not None:
-            print(message.value().decode('UTF-8'))
+            print("Raw message: ", message.value().decode('UTF-8'))
+            if args.schema == 'marshmallow':
+                user = schema.loads(message.value().decode('UTF-8')).data
+                print(user)
+            elif args.schema == 'marshmallow-extended':
+                buffer = json.loads(message.value().decode('UTF-8'))
+                schema_name = buffer['schema']['name']
+                schema_version = buffer['schema']['version']
+                print("Schema name: ", schema_name, " version: ", schema_version)
+
+                if schema_name == 'UserSchema':
+                    user = schema.load(buffer['data']).data
+                    print(user)
+
             consumer.commit()
 
 

@@ -9,6 +9,7 @@ verify_ssl = true
 confluent-kafka = "*"
 avro = "*"
 pyyaml = "*"
+marshmallow = "*"
 
 [requires]
 python_version = "3.7"
