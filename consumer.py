@@ -19,6 +19,7 @@ def main(args):
         :param partitions:
         :return:
         """
+        print(partitions)
         if args.force_beginning:
             for p in partitions:
                 p.offset = OFFSET_BEGINNING
